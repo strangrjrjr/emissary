@@ -22,7 +22,7 @@ const Message = (props) => {
 
     const {message, user} = props
     return(
-        <div className="message">
+        <div className="message" key={message.id}>
             <p className="messageHeader"><span className="messageName">{user.username}</span>  <span className="messageDate">{formatMessageDate(new Date(message.created_at))}</span></p>
             <p className="messageText">{message.text}</p>
         </div>

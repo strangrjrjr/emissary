@@ -1,10 +1,5 @@
 import React, { Component, Fragment } from 'react';
-// import ConversationContainer from '../containers/conversationContainer'
 import MessageContainer from './messageContainer';
-// import Cable from '../components/cable';
-// import AuthWrapper from '../HOCs/AuthWrapper'
-// import { ActionCableConsumer } from 'react-actioncable-provider';
-// import { API_ROOT, HEADERS } from '../constraints/index'
 import NavBar from './navBar'
 import Greeting from '../components/Greeting'
 
@@ -18,6 +13,8 @@ class Home extends Component {
         this.state = {
           conversations: [],
           activeConversation: null,
+          activeConversationUsers: null,
+          activeConversationMessages: null,
           error: false
         }
       }
@@ -31,16 +28,15 @@ class Home extends Component {
          })
         .then(res => res.json())
         .then(json => {
-        console.log(json)
-
         if (json.error) {
           this.setState({error: true})
         } else {
+            this.setState({conversations: json,
+            })
 
-            this.setState({conversations: json})
             this.cable = actioncable.createConsumer('ws://localhost:3000/cable')
             this.conversationChannels = []
-
+            console.log(json)
             json.forEach(conversation => {
 
             this.conversationChannels[`${conversation.id}`] = this.cable.subscriptions.create({
@@ -55,16 +51,26 @@ class Home extends Component {
             })
             }
             )
-            console.log(this.conversationChannels)
         }})
         }
     
         // I need a separate click handler for creating a conversation
+
+        
       handleClick = activeConversation => {
         this.setState({activeConversation: activeConversation})
-
-
       }
+
+      handleCreateConversation = conversation => {
+        fetch('http://localhost:3000/conversations', {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`
+          },
+            body: JSON.stringify(conversation)
+          }).then(res => res.json())
+          .then(json => console.log(json))
+        }
 
       handleDelete = conversation => {
         fetch('http://localhost:3000/conversations', {
@@ -79,23 +85,20 @@ class Home extends Component {
 
     
       handleReceivedMessage = message => {
-
         const {conversation_id} = message
-
-        console.log("Here I am", message)
+        // console.log("MESSAGE RECEIVED", message)
         this.setState(prevState => {
           const conversations = [...prevState.conversations]
           const convo = conversations.find(convo => convo.id === conversation_id)
-          let messageFound = false
-          convo.messages.forEach(msg => {
-            if (message.id === msg.id) {
-              messageFound = true
-            }
-          })
-          if (!messageFound){
-            convo.messages = [...convo.messages, message]
+            if(!!convo.messages) {
+                convo.messages = [...convo.messages, message]
+                console.log("CONVO.MESSAGES UPDATED")
+                console.log(convo.messages)
+                this.setState({conversations})
+        } else {
+            convo.messages = [message]
             this.setState({conversations})
-          }
+        }
         })
       }
     
@@ -117,7 +120,7 @@ class Home extends Component {
                 />
               {error ? this.props.history.push('/login') : null}
                     {activeConversation ?
-                    <MessageContainer activeConversation={activeConversation} onAddMessage={this.onAddMessage} />
+                    <MessageContainer activeConversation={activeConversation} users={activeConversation.users} messages={activeConversation.messages} onAddMessage={this.onAddMessage} />
                 : <Greeting />}
                 
             </Fragment>

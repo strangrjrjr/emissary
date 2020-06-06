@@ -11,7 +11,6 @@ class NavBar extends Component {
 
   render() {
     const { conversations, handleClick } = this.props
-    // console.log(conversations)
     return (
       <div>
         <nav>

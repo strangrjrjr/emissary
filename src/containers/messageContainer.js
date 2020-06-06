@@ -3,7 +3,11 @@ import Message from '../components/Message'
 import MessageForm from '../components/messageForm'
 import ParticipantContainer from './participantsContainer'
 
+// POPULATE MESSAGES NEEDS TO HAPPEN OUTSIDE OF COMPONENT
+// OR CHANGED SOMEHOW; IT'S BEING CALLED ON CONVERSATION SELECT
+// AND MESSAGE UPDATE. REFACTOR
 const populateMessages = (messages, users) => {
+    console.log("POPULATEMESSAGES BEING CALLED")
     if (!!messages) {
         return messages.map(message => {
             return <Message key={message.id} message={message} user={users.find(user => user.id === message.user_id)}/>
@@ -12,9 +16,10 @@ const populateMessages = (messages, users) => {
 }
 
 const MessageContainer = (props) => {
-
-    const {title, description, messages, users} = props.activeConversation
-
+    // CLEAN UP PROPS; NOW CAN DESTRUCTURE FROM ACTIVECONVERSATION
+    const {title, description} = props.activeConversation
+    // const {users} = props.users
+    // const {messages} = props.messages
     const divRef = useRef(null);
 
     useEffect(() => {
@@ -26,11 +31,10 @@ const MessageContainer = (props) => {
             <h3 className="banner">{title} : <span className="smaller">{description}</span></h3>
             <div className="messageContainer grid">
                 <div className="msgView" ref={divRef} >
-                    {populateMessages(messages, users)}
-                    
+                    {populateMessages(props.messages, props.users)}
                 </div>
                 <div className="participants">
-                    <ParticipantContainer users={users} />
+                    <ParticipantContainer users={props.users} />
                 </div>
             </div>
             <div className="msgInput">

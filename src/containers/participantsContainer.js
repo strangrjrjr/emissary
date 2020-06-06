@@ -6,9 +6,9 @@ const ParticipantsContainer = props => {
     const { users } = props
 
     const populateParticipants = () => {
-        console.log(users)
+        // console.log(users)
         return users.map(user => {
-            return <Participant user={user} />
+            return <Participant key={user.username} user={user} />
         })
     }
 

@@ -2,7 +2,6 @@ import React from 'react';
 import Conversation from '../components/Conversation.js'
 
 const populateConversations = (conversations, handleClick) => {
-    console.log(conversations)
     return conversations.map( conversation => {
         return <Conversation key={conversation.id} handleClick={handleClick} conversation={conversation} />
     })
