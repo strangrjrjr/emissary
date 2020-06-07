@@ -8,9 +8,9 @@ class NavBar extends Component {
   componentDidMount() {
     
   }
-
+//   TODO CREATE NEW CONVERSATION FORM, RENDER IT, PICK BETTER ROUTE NAME
   render() {
-    const { conversations, handleClick } = this.props
+    const { conversations, handleCreateConversation, handleActiveConversation } = this.props
     return (
       <div>
         <nav>
@@ -23,8 +23,8 @@ class NavBar extends Component {
 
         <ul>
         <li onClick={(() => {localStorage.setItem("token", "")})}><Link to="login">Log Out</Link></li>
-          <li><Link to="home">Add Conversation</Link></li>
-          <ConversationContainer conversations={conversations} handleClick={handleClick}/>
+          <li><Link to='/new' handleCreateConversation={handleCreateConversation}>Add Conversation</Link></li>
+          <ConversationContainer conversations={conversations} handleClick={handleActiveConversation}/>
         </ul>
       </div>
     )
