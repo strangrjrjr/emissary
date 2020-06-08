@@ -8,10 +8,10 @@ const populateConversations = (conversations, handleClick, handleDelete) => {
 }
 
 const ConversationContainer = (props) => {
-
     const conversations = props.conversations
     const handleClick = props.handleClick
     const handleDelete = props.handleDelete
+    
     return (
         <div>
             {conversations ? 

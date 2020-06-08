@@ -48,9 +48,6 @@ class Home extends Component {
             )
         }})
         }
-    
-        // I need a separate click handler for creating a conversation
-
 
       handleActiveConversation = activeConversation => {
         this.setState({activeConversation: activeConversation})
@@ -72,10 +69,12 @@ class Home extends Component {
         }
 
       handleDelete = conversation => {
+          console.log(JSON.stringify({conversation: {id: conversation.id, title: conversation.title, topic: conversation.topic}}))
         fetch('http://localhost:3000/conversations', {
           method: 'DELETE',
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-type": "application/json"
         },
           body: JSON.stringify(conversation)
         }).then(res => res.json())
@@ -118,11 +117,12 @@ class Home extends Component {
                   conversations={conversations} 
                   handleActiveConversation={this.handleActiveConversation}
                   handleCreateConversation={this.handleCreateConversation}
+                  handleDelete={this.handleDelete}
                   onLogout={this.logout}
                 />
               {error ? this.props.history.push('/login') : null}
                     {activeConversation ?
-                    <MessageContainer activeConversation={activeConversation} onAddMessage={this.onAddMessage} handleDelete={this.handleDelete} />
+                    <MessageContainer activeConversation={activeConversation} onAddMessage={this.onAddMessage}  />
                 : <Greeting />}
                 
             </Fragment>

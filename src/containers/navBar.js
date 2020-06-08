@@ -10,7 +10,7 @@ class NavBar extends Component {
   }
 //   TODO CREATE NEW CONVERSATION FORM, RENDER IT, PICK BETTER ROUTE NAME
   render() {
-    const { conversations, handleCreateConversation, handleActiveConversation } = this.props
+    const { conversations, handleCreateConversation, handleActiveConversation, handleDelete } = this.props
     return (
       <div>
         <nav>
@@ -24,7 +24,7 @@ class NavBar extends Component {
         <ul>
         <li onClick={(() => {localStorage.setItem("token", "")})}><Link to="login">Log Out</Link></li>
           <li><Link to='/new' state={handleCreateConversation}>Add Conversation</Link></li>
-          <ConversationContainer conversations={conversations} handleClick={handleActiveConversation}/>
+          <ConversationContainer conversations={conversations} handleClick={handleActiveConversation} handleDelete={handleDelete} />
         </ul>
       </div>
     )
