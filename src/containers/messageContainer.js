@@ -3,12 +3,9 @@ import Message from '../components/Message'
 import MessageForm from '../components/messageForm'
 import ParticipantContainer from './participantsContainer'
 
-// POPULATE MESSAGES NEEDS TO HAPPEN OUTSIDE OF COMPONENT
-// OR CHANGED SOMEHOW; IT'S BEING CALLED TWICE ON CONVERSATION SELECT
-// AND MESSAGE UPDATE. REFACTOR
+
 const populateMessages = (messages, users) => {
     console.log("POPULATEMESSAGES BEING CALLED")
-    console.log(messages)
     if (!!messages) {
         return messages.map(message => {
             return <Message key={message.id} message={message} user={users.find(user => user.id === message.user_id)}/>

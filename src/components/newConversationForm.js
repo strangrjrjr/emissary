@@ -12,6 +12,9 @@ class newConversationForm extends Component {
     }   
 
     // ADD PARTICIPANTS AS WELL
+    // Perhaps use a PUT or PATCH? Leverage UserConversation in conversations_controller
+
+    // SEND VIA CABLE, USE CHANNEL TO CREATE, NOT POST TO CONTROLLER
 
     handleCreateConversation = () => {
         console.log(this.state)

@@ -70,15 +70,17 @@ class Home extends Component {
 
       handleDelete = conversation => {
           console.log(JSON.stringify({conversation: {id: conversation.id, title: conversation.title, topic: conversation.topic}}))
+          const c = {conversation: {id: conversation.id, title: conversation.title, topic: conversation.topic}}
         fetch('http://localhost:3000/conversations', {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-type": "application/json"
         },
-          body: JSON.stringify(conversation)
+          body: JSON.stringify(c)
         }).then(res => res.json())
         .then(json => console.log(json))
+        this.props.history.push('/home')
       }
 
     
@@ -89,9 +91,12 @@ class Home extends Component {
           const conversations = [...prevState.conversations]
           const convo = conversations.find(convo => convo.id === conversation_id)
             if(!!convo.messages) {
-                console.log(convo)
-                convo.messages = [...convo.messages, message]
-                return conversations
+                if (convo.messages.includes(message)){
+                    return conversations
+                } else {
+                    convo.messages = [...convo.messages, message]
+                    return conversations
+                }
         } else {
             convo.messages = [message]
             return conversations
@@ -100,8 +105,6 @@ class Home extends Component {
       }
     
       onAddMessage = (message) => {
-          console.log("ONADDMESSAGE BEING CALLED")
-          console.log(message)
         this.conversationChannels[this.state.activeConversation.id].send({
           text: message,
           conversation_id: this.state.activeConversation.id,
