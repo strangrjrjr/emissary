@@ -23,7 +23,7 @@ class NavBar extends Component {
 
         <ul>
         <li onClick={(() => {localStorage.setItem("token", "")})}><Link to="login">Log Out</Link></li>
-          <li><Link to='/new' handleCreateConversation={handleCreateConversation}>Add Conversation</Link></li>
+          <li><Link to='/new' state={handleCreateConversation}>Add Conversation</Link></li>
           <ConversationContainer conversations={conversations} handleClick={handleActiveConversation}/>
         </ul>
       </div>

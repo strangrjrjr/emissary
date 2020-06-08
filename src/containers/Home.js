@@ -33,6 +33,7 @@ class Home extends Component {
             })
 
             this.cable = actioncable.createConsumer('ws://localhost:3000/cable')
+            this.cable.subscriptions.create({channel: "ConversationsChannel"})
             this.conversationChannels = []
             json.forEach(conversation => {
             this.conversationChannels[`${conversation.id}`] = this.cable.subscriptions.create({
@@ -55,8 +56,8 @@ class Home extends Component {
         this.setState({activeConversation: activeConversation})
       }
 
-      handleCreateConversation = conversation => {
-          console.log(conversation)
+      handleCreateConversation = (title, topic, isPrivate) => {
+         const conversation = {title: title, topic: topic, private: isPrivate}
         fetch('http://localhost:3000/conversations', {
             method: 'POST',
             headers: {
@@ -67,6 +68,7 @@ class Home extends Component {
           .then(json => console.log(json))
         //   grab json and set active conversation
         // push history to messageContainer view
+          this.props.history.push('/home')
         }
 
       handleDelete = conversation => {
@@ -120,7 +122,7 @@ class Home extends Component {
                 />
               {error ? this.props.history.push('/login') : null}
                     {activeConversation ?
-                    <MessageContainer activeConversation={activeConversation} onAddMessage={this.onAddMessage} />
+                    <MessageContainer activeConversation={activeConversation} onAddMessage={this.onAddMessage} handleDelete={this.handleDelete} />
                 : <Greeting />}
                 
             </Fragment>
