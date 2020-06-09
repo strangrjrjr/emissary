@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {Link} from 'react-router-dom';
 
 class newConversationForm extends Component {
@@ -7,19 +7,28 @@ class newConversationForm extends Component {
         this.state = {
         title: "",
         topic: "",
+        users: [],
+        selectedUsers: []
         // conversationIsPrivate: false
         }
     }   
 
     // ADD PARTICIPANTS AS WELL
-    // Perhaps use a PUT or PATCH? Leverage UserConversation in conversations_controller
+    
+    componentDidMount() {
+        fetch(`http://localhost:3000/users`, {
+          headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+         })
+        .then(res => res.json())
+        .then(json => this.setState({users: json.users}))
+    }
 
     // SEND VIA CABLE, USE CHANNEL TO CREATE, NOT POST TO CONTROLLER
 
     handleCreateConversation = () => {
-        console.log(this.state)
         const conversation = this.state
-        console.log(JSON.stringify({conversation:conversation}))
        fetch('http://localhost:3000/conversations', {
            method: 'POST',
            headers: {
@@ -30,6 +39,7 @@ class newConversationForm extends Component {
          }).then(res => res.json())
          .then(json => console.log(json))
        //   grab json and set active conversation
+            // this.onAddConversation(conversation)
        // push history to messageContainer view
          this.props.history.push('/home')
        }
@@ -37,9 +47,10 @@ class newConversationForm extends Component {
        onAddConversation = (conversation) => {
         console.log("ONADDCONVERSATION BEING CALLED")
         console.log(conversation)
-      this.conversationChannel.send({
+        this.conversationChannel.send({
         title: conversation.title,
         topic: conversation.topic,
+        users: this.state.selectedUsers,
         user_id: localStorage.getItem("token")
       })
     }
@@ -61,6 +72,16 @@ class newConversationForm extends Component {
         this.handleCreateConversation(this.state)
     }
 
+    handleSelect = e => {
+        this.setState(prevState => ({selectedUsers: [...prevState.selectedUsers, e.target.value]}))
+    }
+
+    listUsers = () => {
+        return this.state.users.map(user => {
+            return (<Fragment key={user.id}><label><input type="radio" value={user.username}  />{user.username}</label><br></br></Fragment>)
+        })
+    }
+
     render() {
         return (
             <div>
@@ -73,6 +94,7 @@ class newConversationForm extends Component {
                     <input value={this.state.topic} onChange={this.handleTopic}></input><br></br>
                     {/* <label>Private?</label>
                     <input type="radio" value={this.state.conversationIsPrivate} onChange={this.handleIsPrivate}></input><br></br> */}
+                    {this.listUsers()}
                     <button type="submit">Submit</button>
                 </form>
             </div>

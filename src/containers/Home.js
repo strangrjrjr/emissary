@@ -69,8 +69,9 @@ class Home extends Component {
         }
 
       handleDelete = conversation => {
-          console.log(JSON.stringify({conversation: {id: conversation.id, title: conversation.title, topic: conversation.topic}}))
+          this.conversationChannels[conversation.id].unsubscribe()
           const c = {conversation: {id: conversation.id, title: conversation.title, topic: conversation.topic}}
+          this.setState({conversations: this.state.conversations.filter(function(convo){return convo !== conversation})})
         fetch('http://localhost:3000/conversations', {
           method: 'DELETE',
           headers: {
@@ -80,7 +81,6 @@ class Home extends Component {
           body: JSON.stringify(c)
         }).then(res => res.json())
         .then(json => console.log(json))
-        this.props.history.push('/home')
       }
 
     
@@ -111,7 +111,7 @@ class Home extends Component {
           user_id: localStorage.getItem("token")
         })
       }
-    //   TODO PROPERLY HANDLE NEW CONVERSATION FORM
+
       render() {
           const {conversations, activeConversation, error} = this.state
         return(
