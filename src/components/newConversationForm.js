@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
 class newConversationForm extends Component {
@@ -12,8 +12,6 @@ class newConversationForm extends Component {
         // conversationIsPrivate: false
         }
     }   
-
-    // ADD PARTICIPANTS AS WELL
     
     componentDidMount() {
         fetch(`http://localhost:3000/users`, {
@@ -28,7 +26,7 @@ class newConversationForm extends Component {
     // SEND VIA CABLE, USE CHANNEL TO CREATE, NOT POST TO CONTROLLER
 
     handleCreateConversation = () => {
-        const conversation = this.state
+        const conversation = {conversation: {title:this.state.title, topic: this.state.topic, users: this.state.selectedUsers}}
        fetch('http://localhost:3000/conversations', {
            method: 'POST',
            headers: {
@@ -72,21 +70,31 @@ class newConversationForm extends Component {
         this.handleCreateConversation(this.state)
     }
 
-    handleSelect = e => {
-        this.setState(prevState => ({selectedUsers: [...prevState.selectedUsers, e.target.value]}))
+    handleSelect = (e) => {
+        e.persist()
+        const user = this.state.users.find(user => user.username === e.target.value)
+        console.log(user)
+        this.setState(prevState => ({selectedUsers: [...prevState.selectedUsers, user]}))
     }
 
     listUsers = () => {
         return this.state.users.map(user => {
-            return (<Fragment key={user.id}><label><input type="radio" value={user.username}  />{user.username}</label><br></br></Fragment>)
+            return (
+            <p key={user.id}>
+                <label>
+                    <input className='with-gap' name="participant-select" type="checkbox" value={user.username} onClick={this.handleSelect}  />
+                    <span>{user.username}</span>
+                </label>
+            </p>)
         })
     }
 
     render() {
         return (
             <div>
-                <h3>Create a conversation</h3>
-                <Link to='/home'>Back</Link>
+                <h4>Create a conversation</h4>
+                <h6>You will be included by default, no need to select yourself</h6>
+                <Link to='/home'>Back</Link><br></br>
                 <form onSubmit={this.handleSubmit}>
                     <label>Title</label>
                     <input value={this.state.title} onChange={this.handleTitle}></input><br></br>

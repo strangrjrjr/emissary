@@ -14,17 +14,17 @@ code {
 
 .messageContainer {
   margin: 20px;
-  
-
 }
-
+.sidenav-trigger {
+  float: right;
+}
 .message {
   border: solid;
   border-width: thin;
   margin: 5px;
   border-radius: 5px;
   padding-left: 5px;
-  background-color: lightblue;
+  background-color: rgb(191, 192, 193);
   border-radius: 10px;
   box-shadow: 1px 1px 5px black;
 }
@@ -51,7 +51,7 @@ code {
 }
 
 .button {
-  background-color: #ee6e73;
+  background-color: #838982;
   color: white;
   border-radius: 10px;
   box-shadow: 1px 1px 5px black;
@@ -108,7 +108,7 @@ code {
   border-radius: 20px;
   width: 25rem;
   display: inline-block;
-  background-color: #D4FAF8;
+  background-color: #464646;
   border-radius: 10px;
   box-shadow: 1px 1px 5px black;
 }
@@ -130,6 +130,12 @@ code {
   font-size: large;
 }
 
+.delete {
+  color: red;
+  font-size: small;
+}
+
+
 .conversation_li:hover {
   color: darkgray;
   cursor: pointer;
@@ -146,4 +152,14 @@ code {
 .participant_li {
   font-size: large;
   margin-left: 2rem;
+}
+
+.sidenav-trigger {
+  float: right !important;
+}
+
+
+.nav-wrapper {
+  text-align: right;
+  background-color: #838982;
 }

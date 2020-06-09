@@ -6,7 +6,8 @@ import Signup from './components/Signup';
 import Error from './components/Error';
 import newConversationForm from './components/newConversationForm';
 import {BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
+import 'materialize-css/dist/css/materialize.min.css';
+import './index.css'
 const App = () =>  {
   return (
         <Router>

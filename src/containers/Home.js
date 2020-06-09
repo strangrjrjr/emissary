@@ -41,7 +41,7 @@ class Home extends Component {
                 id: conversation.id
             },{
                 connected: () => {console.log("connected", conversation.id)},
-                disconnected: () => {},
+                disconnected: () => {console.log("disconnected", conversation.id)},
                 received: data => {this.handleReceivedMessage(data)}
             })
             } 
@@ -53,22 +53,10 @@ class Home extends Component {
         this.setState({activeConversation: activeConversation})
       }
 
-      handleCreateConversation = (title, topic, isPrivate) => {
-         const conversation = {title: title, topic: topic, private: isPrivate}
-        fetch('http://localhost:3000/conversations', {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`
-          },
-            body: JSON.stringify(conversation)
-          }).then(res => res.json())
-          .then(json => console.log(json))
-        //   grab json and set active conversation
-        // push history to messageContainer view
-          this.props.history.push('/home')
-        }
-
       handleDelete = conversation => {
+          console.log("HANDLEDELETE CALLED")
+            this.setState({activeConversation: null})
+            console.log(this.state)
           this.conversationChannels[conversation.id].unsubscribe()
           const c = {conversation: {id: conversation.id, title: conversation.title, topic: conversation.topic}}
           this.setState({conversations: this.state.conversations.filter(function(convo){return convo !== conversation})})
@@ -81,6 +69,7 @@ class Home extends Component {
           body: JSON.stringify(c)
         }).then(res => res.json())
         .then(json => console.log(json))
+        .then(this.forceUpdate())
       }
 
     
@@ -119,7 +108,6 @@ class Home extends Component {
                 <NavBar 
                   conversations={conversations} 
                   handleActiveConversation={this.handleActiveConversation}
-                  handleCreateConversation={this.handleCreateConversation}
                   handleDelete={this.handleDelete}
                   onLogout={this.logout}
                 />
