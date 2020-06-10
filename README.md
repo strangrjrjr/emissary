@@ -31,3 +31,5 @@ This repo is the frontend companion to my Ruby on Rails server, found [here](htt
 - [ ] Contact list instead of list of all users
 - [ ] Captcha or other bot-detection at signup
 - [ ] OTA encryption of messages and user data
+
+_This project is heavily based on an earlier group project called [FlatChat](https://github.com/strangrjrjr/flatchat_frontend). Many thanks to John Souza and Jazz Bozner for their contributions!_
