@@ -14,7 +14,7 @@ class newConversationForm extends Component {
     }   
     
     componentDidMount() {
-        fetch(`http://localhost:3000/users`, {
+        fetch(`https://emissary-chat.herokuapp.com/users`, {
           headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`
           }
@@ -27,7 +27,7 @@ class newConversationForm extends Component {
 
     handleCreateConversation = () => {
         const conversation = {conversation: {title:this.state.title, topic: this.state.topic, users: this.state.selectedUsers}}
-       fetch('http://localhost:3000/conversations', {
+       fetch('https://emissary-chat.herokuapp.com/conversations', {
            method: 'POST',
            headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

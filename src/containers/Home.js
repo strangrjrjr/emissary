@@ -19,7 +19,7 @@ class Home extends Component {
       
     
       componentDidMount = () => {
-        fetch(`http://localhost:3000/conversations`, {
+        fetch(`https://emissary-chat.herokuapp.com/conversations`, {
           headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`
           }
@@ -32,7 +32,7 @@ class Home extends Component {
             this.setState({conversations: json,
             })
 
-            this.cable = actioncable.createConsumer('ws://localhost:3000/cable')
+            this.cable = actioncable.createConsumer('wss://emissary-chat.herokuapp.com/cable')
             this.cable.subscriptions.create({channel: "ConversationsChannel"})
             this.conversationChannels = []
             json.forEach(conversation => {
@@ -60,7 +60,7 @@ class Home extends Component {
           this.conversationChannels[conversation.id].unsubscribe()
           const c = {conversation: {id: conversation.id, title: conversation.title, topic: conversation.topic}}
           this.setState({conversations: this.state.conversations.filter(function(convo){return convo !== conversation})})
-        fetch('http://localhost:3000/conversations', {
+        fetch('https://emissary-chat.herokuapp.com/conversations', {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
