@@ -16,12 +16,13 @@ This repo is the frontend companion to my Ruby on Rails server, found [here](htt
 
 ### Technologies Used
 
+- React 16.13.1
 - Create-react-app
 - JWT authorization
 - ActionCable/WebSockets
 - React Hooks
 
-### TODO (strech goals)
+### TODO (stretch goals)
 
 - [ ] Token expiration
 - [ ] Offload conversation creation to channel, rather than a POST
