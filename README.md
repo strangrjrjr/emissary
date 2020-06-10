@@ -18,9 +18,10 @@ This repo is the frontend companion to my Ruby on Rails server, found [here](htt
 
 - React 16.13.1
 - Create-react-app
+- React Router
+- React Hooks
 - JWT authorization
 - ActionCable/WebSockets
-- React Hooks
 
 ### TODO (stretch goals)
 

@@ -74,7 +74,12 @@ class newConversationForm extends Component {
         e.persist()
         const user = this.state.users.find(user => user.username === e.target.value)
         console.log(user)
-        this.setState(prevState => ({selectedUsers: [...prevState.selectedUsers, user]}))
+        if (!this.state.selectedUsers.includes(user)){
+            this.setState(prevState => ({selectedUsers: [...prevState.selectedUsers, user]}))
+        } else {
+            this.setState({selectedUsers: this.state.selectedUsers.filter(function(selected){return selected !== user})})
+            
+        }
     }
 
     listUsers = () => {
