@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## An IM-style chat app 
 
-This repo is the frontend companion to my Ruby on Rails server, found [here](https://github.com/strangrjrjr/emissary_api).
+This repo is the frontend companion to my Ruby on Rails server, found [here](https://github.com/strangrjrjr/emissary_api). The main branch is configured for local development, the netlify branch is a live demo [hosted on Netlify](https://objective-lamport-f498dc.netlify.app)
 
 ### Features
 
