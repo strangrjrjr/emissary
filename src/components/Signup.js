@@ -30,7 +30,7 @@ const Signup = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        fetch('http://localhost:3000/signup', {
+        fetch('https://emissary-chat.herokuapp.com/signup', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
