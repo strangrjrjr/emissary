@@ -1,7 +1,6 @@
 import ActionCable from 'actioncable';
 
 export default function cableMiddleware() {
-  const cable = ActionCable.createConsumer('ws://localhost:3000/cable');
 
   return ({ dispatch, getState }) => next => (action) => {
     if (typeof(action) === 'function') {
@@ -15,7 +14,7 @@ export default function cableMiddleware() {
     } = action;
     let { received } = action;
 
-    if (!conversation) {
+    if (!channel) {
       return next(action);
     }
 
