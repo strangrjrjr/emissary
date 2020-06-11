@@ -77,8 +77,7 @@ class newConversationForm extends Component {
         if (!this.state.selectedUsers.includes(user)){
             this.setState(prevState => ({selectedUsers: [...prevState.selectedUsers, user]}))
         } else {
-            this.setState({selectedUsers: this.state.selectedUsers.filter(function(selected){return selected !== user})})
-            
+            this.setState({selectedUsers: this.state.selectedUsers.filter(function(selected){return selected !== user})})  
         }
     }
 

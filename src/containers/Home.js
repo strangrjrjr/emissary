@@ -115,7 +115,6 @@ class Home extends Component {
                     {activeConversation ?
                     <MessageContainer activeConversation={activeConversation} onAddMessage={this.onAddMessage}  />
                 : <Greeting />}
-                
             </Fragment>
         )
       }
