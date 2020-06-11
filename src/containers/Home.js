@@ -33,7 +33,11 @@ class Home extends Component {
             })
 
             this.cable = actioncable.createConsumer('ws://localhost:3000/cable')
-            this.cable.subscriptions.create({channel: "ConversationsChannel"})
+            this.cable.subscriptions.create({channel: "ConversationsChannel"}, {
+                connected: () => {console.log("connected ConversationsChannel")},
+                disconnected: () => {console.log("disconnected ConversationsChannel")},
+                received: data => {this.handleReceivedConversation(data)}
+            })
             this.conversationChannels = []
             json.forEach(conversation => {
             this.conversationChannels[`${conversation.id}`] = this.cable.subscriptions.create({
@@ -54,12 +58,11 @@ class Home extends Component {
       }
 
       handleDelete = conversation => {
-          console.log("HANDLEDELETE CALLED")
-            this.setState({activeConversation: null})
-            console.log(this.state)
-          this.conversationChannels[conversation.id].unsubscribe()
-          const c = {conversation: {id: conversation.id, title: conversation.title, topic: conversation.topic}}
-          this.setState({conversations: this.state.conversations.filter(function(convo){return convo !== conversation})})
+        console.log("HANDLEDELETE CALLED")
+        this.setState({activeConversation: null})
+        this.conversationChannels[conversation.id].unsubscribe()
+        const c = {conversation: {id: conversation.id, title: conversation.title, topic: conversation.topic}}
+        this.setState({conversations: this.state.conversations.filter(function(convo){return convo !== conversation})})
         fetch('http://localhost:3000/conversations', {
           method: 'DELETE',
           headers: {
@@ -69,7 +72,6 @@ class Home extends Component {
           body: JSON.stringify(c)
         }).then(res => res.json())
         .then(json => console.log(json))
-        .then(this.forceUpdate())
       }
 
     
@@ -91,6 +93,12 @@ class Home extends Component {
             return conversations
         }
         })
+      }
+      handleReceivedConversation = conversation => {
+        console.log(conversation)
+        this.setState(prevState => ({
+            conversations: [...prevState.conversation], conversation
+        }))
       }
     
       onAddMessage = (message) => {

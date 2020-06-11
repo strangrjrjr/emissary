@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
+const actioncable = require("actioncable")
+
 class newConversationForm extends Component {
     constructor(props){
         super(props)
@@ -21,23 +23,15 @@ class newConversationForm extends Component {
          })
         .then(res => res.json())
         .then(json => this.setState({users: json.users}))
+        this.cable = actioncable.createConsumer('ws://localhost:3000/cable')
+           this.conversationsChannel = this.cable.subscriptions.create({channel: "ConversationsChannel"})
     }
 
     // SEND VIA CABLE, USE CHANNEL TO CREATE, NOT POST TO CONTROLLER
 
     handleCreateConversation = () => {
-        const conversation = {conversation: {title:this.state.title, topic: this.state.topic, users: this.state.selectedUsers}}
-       fetch('http://localhost:3000/conversations', {
-           method: 'POST',
-           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-type": "application/json"
-         },
-           body: JSON.stringify(conversation)
-         }).then(res => res.json())
-         .then(json => console.log(json))
-       //   grab json and set active conversation
-            // this.onAddConversation(conversation)
+        const conversation = {title:this.state.title, topic: this.state.topic, users: this.state.selectedUsers}
+        this.onAddConversation(conversation)
        // push history to messageContainer view
          this.props.history.push('/home')
        }
@@ -45,7 +39,7 @@ class newConversationForm extends Component {
        onAddConversation = (conversation) => {
         console.log("ONADDCONVERSATION BEING CALLED")
         console.log(conversation)
-        this.conversationChannel.send({
+        this.conversationsChannel.send({
         title: conversation.title,
         topic: conversation.topic,
         users: this.state.selectedUsers,
