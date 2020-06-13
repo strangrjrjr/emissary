@@ -16,6 +16,7 @@ class newConversationForm extends Component {
     }   
     
     componentDidMount() {
+        console.log(this.props)
         fetch(`http://localhost:3000/users`, {
           headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -38,7 +39,7 @@ class newConversationForm extends Component {
 
        onAddConversation = (conversation) => {
         console.log("ONADDCONVERSATION BEING CALLED")
-        console.log(conversation)
+        // console.log(conversation)
         this.conversationsChannel.send({
         title: conversation.title,
         topic: conversation.topic,
@@ -67,7 +68,6 @@ class newConversationForm extends Component {
     handleSelect = (e) => {
         e.persist()
         const user = this.state.users.find(user => user.username === e.target.value)
-        console.log(user)
         this.setState(prevState => ({selectedUsers: [...prevState.selectedUsers, user]}))
     }
 

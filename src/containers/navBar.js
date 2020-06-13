@@ -11,8 +11,23 @@ class NavBar extends Component {
     M.Sidenav.init(elems, {edge: 'right'});
   }
 
+  handleNewConversation = () => {
+      console.log("NAVBAR", this.props.cable)
+    const location = {
+        pathname: '/new',
+        state: {cable: this.props.cable}
+    }
+    
+    // this.props.history.push(location)
+    // this.props.history.replace(location)
+    return (
+        <li><Link to={location}>Add Conversation</Link></li>
+    )
+  }
+
   render() {
     const { conversations, handleActiveConversation, handleDelete } = this.props
+    
     return (
     <div>
         <nav>
@@ -26,7 +41,7 @@ class NavBar extends Component {
 
         <ul id="slide-out" className="sidenav sidenav-close">
         <li onClick={(() => {localStorage.setItem("token", "")})}><Link to="login">Log Out</Link></li>
-          <li><Link to="/new">Add Conversation</Link></li>
+          {this.handleNewConversation()}
           <li><div className="divider"></div></li>
           <ConversationContainer conversations={conversations} handleClick={handleActiveConversation} handleDelete={handleDelete}/>
         </ul>

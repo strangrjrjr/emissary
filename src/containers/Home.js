@@ -11,9 +11,10 @@ class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
-          conversations: [],
-          activeConversation: null,
-          error: false
+            cable: null,
+            conversations: [],
+            activeConversation: null,
+            error: false
         }
       }
       
@@ -31,16 +32,19 @@ class Home extends Component {
         } else {
             this.setState({conversations: json,
             })
-
-            this.cable = actioncable.createConsumer('ws://localhost:3000/cable')
-            this.cable.subscriptions.create({channel: "ConversationsChannel"}, {
+            // ASYNC FUCKUP, I THINK. DOESN'T GET UPDATED BEFORE RENDER
+            const ac = actioncable.createConsumer('ws://localhost:3000/cable')
+            // this.state.cable = ac 
+            this.setState({cable: ac})
+            console.log("componentDidMount", this.state.cable)
+            this.state.cable.subscriptions.create({channel: "ConversationsChannel"}, {
                 connected: () => {console.log("connected ConversationsChannel")},
                 disconnected: () => {console.log("disconnected ConversationsChannel")},
                 received: data => {this.handleReceivedConversation(data)}
             })
             this.conversationChannels = []
             json.forEach(conversation => {
-            this.conversationChannels[`${conversation.id}`] = this.cable.subscriptions.create({
+            this.conversationChannels[`${conversation.id}`] = this.state.cable.subscriptions.create({
                 channel: "MessagesChannel",
                 id: conversation.id
             },{
@@ -110,7 +114,8 @@ class Home extends Component {
       }
 
       render() {
-          const {conversations, activeConversation, error} = this.state
+          const {conversations, activeConversation, error, cable} = this.state
+          console.log("HOME CABLE", this.state)
         return(
             <Fragment>
                 <NavBar 
@@ -118,6 +123,8 @@ class Home extends Component {
                   handleActiveConversation={this.handleActiveConversation}
                   handleDelete={this.handleDelete}
                   onLogout={this.logout}
+                  cable={cable}
+                  history={this.props.history}
                 />
               {error ? this.props.history.push('/login') : null}
                     {activeConversation ?
