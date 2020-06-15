@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
+const actioncable = require("actioncable");
+
 class newConversationForm extends Component {
     constructor(props){
         super(props)
