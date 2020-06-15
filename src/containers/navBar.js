@@ -8,14 +8,14 @@ class NavBar extends Component {
   componentDidMount() {
     const M = window.M
     const elems = document.querySelectorAll('.sidenav');
-    const sidenav = M.Sidenav.init(elems, {edge: 'right'});
+    M.Sidenav.init(elems, {edge: 'right'});
   }
 
   render() {
     const { conversations, handleActiveConversation, handleDelete } = this.props
     return (
     <div>
-        <nav ref={Sidenav => {this.sidenav = Sidenav} }> 
+        <nav> 
           <div className="nav-wrapper">
             <Link to="home" data-target="slide-out" className="sidenav-trigger show-on-large">Menu</Link>
             <Link to="home" className="brand-logo center">Emissary</Link>
