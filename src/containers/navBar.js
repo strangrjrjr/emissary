@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ConversationContainer from './conversationContainer'
 import { Link } from 'react-router-dom'
-import M from "materialize-css";
+import {Sidenav} from "materialize-css";
 
 class NavBar extends Component {
 
