@@ -23,8 +23,8 @@ class newConversationForm extends Component {
          })
         .then(res => res.json())
         .then(json => this.setState({users: json.users}))
-        const ac = actioncable.createConsumer('wss://emissary-chat.herokuapp.com/cable')
-           this.conversationsChannel = ac.subscriptions.create({channel: "ConversationsChannel"})
+        this.cable = actioncable.createConsumer('wss://emissary-chat.herokuapp.com/cable')
+           this.conversationsChannel = this.cable.subscriptions.create({channel: "ConversationsChannel"})
     }
 
     // SEND VIA CABLE, USE CHANNEL TO CREATE, NOT POST TO CONTROLLER
@@ -38,7 +38,6 @@ class newConversationForm extends Component {
 
        onAddConversation = (conversation) => {
         console.log("ONADDCONVERSATION BEING CALLED")
-        // console.log(conversation)
         this.conversationsChannel.send({
         title: conversation.title,
         topic: conversation.topic,
