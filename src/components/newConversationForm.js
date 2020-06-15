@@ -23,8 +23,8 @@ class newConversationForm extends Component {
          })
         .then(res => res.json())
         .then(json => this.setState({users: json.users}))
-        this.cable = actioncable.createConsumer('wss://emissary-chat.herokuapp.com/cable')
-           this.conversationsChannel = this.cable.subscriptions.create({channel: "ConversationsChannel"})
+        const ac = actioncable.createConsumer('wss://emissary-chat.herokuapp.com/cable')
+           this.conversationsChannel = ac.subscriptions.create({channel: "ConversationsChannel"})
     }
 
     // SEND VIA CABLE, USE CHANNEL TO CREATE, NOT POST TO CONTROLLER
@@ -61,7 +61,7 @@ class newConversationForm extends Component {
 
     handleSubmit = e => {
         e.preventDefault()
-        this.handleCreateConversation(this.state)
+        this.handleCreateConversation()
     }
 
     handleSelect = (e) => {
