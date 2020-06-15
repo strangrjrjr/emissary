@@ -33,7 +33,11 @@ class Home extends Component {
             })
 
             const ac = actioncable.createConsumer('wss://emissary-chat.herokuapp.com/cable')
-            ac.subscriptions.create({channel: "ConversationsChannel"})
+            ac.subscriptions.create({channel: "ConversationsChannel"},, {
+              connected: () => {console.log("connected ConversationsChannel")},
+              disconnected: () => {console.log("disconnected ConversationsChannel")},
+              received: data => {this.handleReceivedConversation(data)}
+          })
             this.conversationChannels = []
             json.forEach(conversation => {
             this.conversationChannels[`${conversation.id}`] = ac.subscriptions.create({
@@ -91,6 +95,13 @@ class Home extends Component {
             return conversations
         }
         })
+      }
+
+      handleReceivedConversation = conversation => {
+        // console.log(conversation)
+        this.setState(prevState => ({
+            conversations: [...prevState.conversation], conversation
+        }))
       }
     
       onAddMessage = (message) => {
