@@ -32,8 +32,8 @@ class Home extends Component {
             this.setState({conversations: json,
             })
 
-            this.cable = actioncable.createConsumer('wss://emissary-chat.herokuapp.com/cable')
-            this.cable.subscriptions.create({channel: "ConversationsChannel"})
+            const ac = actioncable.createConsumer('wss://emissary-chat.herokuapp.com/cable')
+            ac.subscriptions.create({channel: "ConversationsChannel"})
             this.conversationChannels = []
             json.forEach(conversation => {
             this.conversationChannels[`${conversation.id}`] = this.cable.subscriptions.create({
