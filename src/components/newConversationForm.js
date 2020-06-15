@@ -23,8 +23,8 @@ class newConversationForm extends Component {
          })
         .then(res => res.json())
         .then(json => this.setState({users: json.users}))
-        this.cable = actioncable.createConsumer('ws://localhost:3000/cable')
-           this.conversationsChannel = this.cable.subscriptions.create({channel: "ConversationsChannel"})
+        const ac = actioncable.createConsumer('ws://localhost:3000/cable')
+        this.conversationsChannel = ac.subscriptions.create({channel: "ConversationsChannel"})
     }
 
     // SEND VIA CABLE, USE CHANNEL TO CREATE, NOT POST TO CONTROLLER
