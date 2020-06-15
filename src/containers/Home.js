@@ -33,7 +33,7 @@ class Home extends Component {
             })
 
             const ac = actioncable.createConsumer('wss://emissary-chat.herokuapp.com/cable')
-            ac.subscriptions.create({channel: "ConversationsChannel"},, {
+            ac.subscriptions.create({channel: "ConversationsChannel"}, {
               connected: () => {console.log("connected ConversationsChannel")},
               disconnected: () => {console.log("disconnected ConversationsChannel")},
               received: data => {this.handleReceivedConversation(data)}
