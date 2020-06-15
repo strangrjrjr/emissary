@@ -21,23 +21,15 @@ class newConversationForm extends Component {
          })
         .then(res => res.json())
         .then(json => this.setState({users: json.users}))
+        this.cable = actioncable.createConsumer('wss://emissary-chat.herokuapp.com/cable')
+           this.conversationsChannel = this.cable.subscriptions.create({channel: "ConversationsChannel"})
     }
 
     // SEND VIA CABLE, USE CHANNEL TO CREATE, NOT POST TO CONTROLLER
 
     handleCreateConversation = () => {
-        const conversation = {conversation: {title:this.state.title, topic: this.state.topic, users: this.state.selectedUsers}}
-       fetch('https://emissary-chat.herokuapp.com/conversations', {
-           method: 'POST',
-           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-type": "application/json"
-         },
-           body: JSON.stringify(conversation)
-         }).then(res => res.json())
-         .then(json => console.log(json))
-       //   grab json and set active conversation
-            // this.onAddConversation(conversation)
+        const conversation = {title:this.state.title, topic: this.state.topic, users: this.state.selectedUsers}
+        this.onAddConversation(conversation)
        // push history to messageContainer view
          this.props.history.push('/home')
        }
