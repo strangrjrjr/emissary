@@ -1,21 +1,21 @@
 import React, { Component } from 'react'
 import ConversationContainer from './conversationContainer'
 import { Link } from 'react-router-dom'
-// import M from "materialize-css";
+import "materialize-css";
 
 class NavBar extends Component {
 
   componentDidMount() {
     const M = window.M
     const elems = document.querySelectorAll('.sidenav');
-    M.Sidenav.init(elems, {edge: 'right'});
+    const sidenav = M.Sidenav.init(elems, {edge: 'right'});
   }
 
   render() {
     const { conversations, handleActiveConversation, handleDelete } = this.props
     return (
     <div>
-        <nav>
+        <nav ref={Sidenav => {this.sidenav = Sidenav} }> 
           <div className="nav-wrapper">
             <Link to="home" data-target="slide-out" className="sidenav-trigger show-on-large">Menu</Link>
             <Link to="home" className="brand-logo center">Emissary</Link>
