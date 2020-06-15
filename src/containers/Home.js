@@ -36,7 +36,7 @@ class Home extends Component {
             ac.subscriptions.create({channel: "ConversationsChannel"})
             this.conversationChannels = []
             json.forEach(conversation => {
-            this.conversationChannels[`${conversation.id}`] = this.cable.subscriptions.create({
+            this.conversationChannels[`${conversation.id}`] = ac.subscriptions.create({
                 channel: "MessagesChannel",
                 id: conversation.id
             },{
