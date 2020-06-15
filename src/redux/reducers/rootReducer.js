@@ -1,8 +1,7 @@
 // import components, this is where actioncable lives??
-const actioncable = require("actioncable")
 
 const initialState = {
-    cable: actioncable.createConsumer('ws://localhost:3000/cable'),
+    cable: null,
     conversations: [],
     activeConversation: null,
     error: false
@@ -65,9 +64,9 @@ export const rootReducer = (state=initialState, action) => {
             }
             }))
         case 'HANDLE_RECEIVED_CONVERSATION':
-            const conversation = action.payload.conversation
-                console.log(conversation)
-            return(Object.assign({}, state, {conversations: [...conversations], conversation}))
+            const receivedConversation = action.payload.conversation
+                console.log(receivedConversation)
+            return(Object.assign({}, state, {conversations: [...state.conversations], receivedConversation}))
 
         case 'ON_ADD_MESSAGE':
             // DOES THIS EVEN WORK WITH REDUX?
