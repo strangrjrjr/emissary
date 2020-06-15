@@ -16,7 +16,7 @@ class newConversationForm extends Component {
     }   
     
     componentDidMount() {
-        console.log(this.props)
+        console.log("NewFORM", this.props.cable)
         fetch(`http://localhost:3000/users`, {
           headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`
