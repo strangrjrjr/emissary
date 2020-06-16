@@ -25,9 +25,9 @@ This repo is the frontend companion to my Ruby on Rails server, found [here](htt
 
 ### TODO (stretch goals)
 
-- [ ] Token expiration
-- [ ] Offload conversation creation to channel, rather than a POST
-- [ ] Offload conversation deletion to channel, rather than a POST
+- [x] Token expiration
+- [x] Offload conversation creation to channel, rather than a POST
+- [x] Offload conversation deletion to channel, rather than a POST
 - [ ] Redux store to streamline props
 - [ ] Online status indicator
 - [ ] Contact list instead of list of all users
