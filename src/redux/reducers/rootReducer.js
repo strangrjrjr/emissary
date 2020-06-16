@@ -14,7 +14,7 @@ export const rootReducer = (state=initialState, action) => {
                 connected: () => {console.log("connected ConversationsChannel")},
                 disconnected: () => {console.log("disconnected ConversationsChannel")},
                 // FIX THIS
-                received: data => {this.handleReceivedConversation(data)}
+                received: data => {handleReceivedConversation(data)}
             }))
         case 'INIT_MESSAGE_CHANNEL':
             return(state.cable.subscriptions.create({
@@ -24,24 +24,12 @@ export const rootReducer = (state=initialState, action) => {
                 connected: () => {console.log("connected", action.payload.conversation.id)},
                 disconnected: () => {console.log("disconnected", action.payload.conversation.id)},
                 // FIX THIS
-                received: data => {this.handleReceivedMessage(data)}
+                received: data => {handleReceivedMessage(data)}
             }))
         case 'HANDLE_DELETE':
             console.log("HANDLEDELETE CALLED")
             const conversation = action.payload.conversation
-            state.conversationChannels[conversation.id].unsubscribe()
-            const c = {conversation: {id: conversation.id, title: conversation.title, topic: conversation.topic}}
-            // FIX THIS
             state.conversations.filter(function(convo){return convo !== conversation})
-            fetch('http://localhost:3000/conversations', {
-            method: 'DELETE',
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(c)
-            }).then(res => res.json())
-            .then(json => console.log(json))
             return (Object.assign({}, state, {activeConversation: null}))
         case 'HANDLE_ACTIVE_CONVERSATION':
             return (Object.assign({}, state, {activeConversation: action.payload.conversation}))

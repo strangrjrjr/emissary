@@ -15,9 +15,20 @@ export const initMessagesChannel = () => {
   return (dispatch) => {dispatch({type: 'INIT_MESSAGE_CHANNEL'})}
 }
 
-export const handleDelete = () => {
+export const handleDelete = (conversation) => {
   // PUT FETCH HERE, NOT IN REDUCER
-  return (dispatch) => {dispatch({type: 'HANDLE_DELETE'})}
+  state.conversationChannels[conversation.id].unsubscribe()
+  const c = {conversation: {id: conversation.id, title: conversation.title, topic: conversation.topic}}   
+  fetch('http://localhost:3000/conversations', {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(c)
+            }).then(res => res.json())
+            .then(json => console.log(json))
+  return (dispatch) => {dispatch({type: 'HANDLE_DELETE', payload: conversation})}
 }
 
 export const handleActiveConversation = () => {
