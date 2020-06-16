@@ -4,14 +4,14 @@ import './index.css';
 import App from './App';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import thunkMiddleware from 'redux-thunk';
+import thunk from 'redux-thunk';
 import rootReducer from './redux/reducers/rootReducer'
-import cableMiddleware from './redux/middleware/cableMiddleware'
+// import cableMiddleware from './redux/middleware/cableMiddleware'
 import * as serviceWorker from './serviceWorker';
 
 const store = createStore(
   rootReducer,
-  applyMiddleware(thunkMiddleware(), cableMiddleware())
+  applyMiddleware(thunk)
   );
   
 ReactDOM.render(

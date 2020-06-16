@@ -2,6 +2,8 @@ import ActionCable from 'actioncable';
 
 export default function cableMiddleware() {
 
+  const cable = ActionCable.createConsumer('ws://localhost:3000/cable')
+
   return ({ dispatch, getState }) => next => (action) => {
     if (typeof(action) === 'function') {
       return next(action)

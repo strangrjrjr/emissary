@@ -16,7 +16,6 @@ class newConversationForm extends Component {
     }   
     
     componentDidMount() {
-        console.log("NewFORM", this.props.cable)
         fetch(`http://localhost:3000/users`, {
           headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -24,8 +23,8 @@ class newConversationForm extends Component {
          })
         .then(res => res.json())
         .then(json => this.setState({users: json.users}))
-        this.cable = actioncable.createConsumer('ws://localhost:3000/cable')
-           this.conversationsChannel = this.cable.subscriptions.create({channel: "ConversationsChannel"})
+        const ac = actioncable.createConsumer('ws://localhost:3000/cable')
+        this.conversationsChannel = ac.subscriptions.create({channel: "ConversationsChannel"})
     }
 
     // SEND VIA CABLE, USE CHANNEL TO CREATE, NOT POST TO CONTROLLER
@@ -39,7 +38,6 @@ class newConversationForm extends Component {
 
        onAddConversation = (conversation) => {
         console.log("ONADDCONVERSATION BEING CALLED")
-        // console.log(conversation)
         this.conversationsChannel.send({
         title: conversation.title,
         topic: conversation.topic,

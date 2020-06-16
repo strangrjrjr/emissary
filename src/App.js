@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, {Component} from 'react';
 import Home from './containers/Home';
 import Login from './components/Login';
 import Signup from './components/Signup';
@@ -8,8 +8,16 @@ import newConversationForm from './components/newConversationForm';
 import {BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 import './index.css'
+import {connect} from 'react-redux';
+import initCable from './redux/actions/cableActions';
 
-const App = () =>  {
+class App extends Component {
+
+  componentDidMount() {
+    this.props.initCable()
+  }
+  
+  render() {
   return (
         <Router>
           <div>
@@ -23,6 +31,6 @@ const App = () =>  {
             </Switch>
           </div>
         </Router>
-    );
+    )};
 }
 export default App;

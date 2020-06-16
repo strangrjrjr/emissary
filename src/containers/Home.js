@@ -11,8 +11,8 @@ class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            // cable: null,
             conversations: [],
+            activeUsers: [],
             activeConversation: null,
             error: false
         }
@@ -33,16 +33,14 @@ class Home extends Component {
             this.setState({conversations: json,
             })
             const ac = actioncable.createConsumer('ws://localhost:3000/cable')
-            this.setState({cable: ac})
-            // console.log("componentDidMount", this.state.cable)
-            this.state.cable.subscriptions.create({channel: "ConversationsChannel"}, {
+            ac.subscriptions.create({channel: "ConversationsChannel"}, {
                 connected: () => {console.log("connected ConversationsChannel")},
                 disconnected: () => {console.log("disconnected ConversationsChannel")},
                 received: data => {this.handleReceivedConversation(data)}
             })
             this.conversationChannels = []
             json.forEach(conversation => {
-            this.conversationChannels[`${conversation.id}`] = this.state.cable.subscriptions.create({
+            this.conversationChannels[`${conversation.id}`] = ac.subscriptions.create({
                 channel: "MessagesChannel",
                 id: conversation.id
             },{
@@ -52,11 +50,22 @@ class Home extends Component {
             })
             } 
             )
+            ac.subscriptions.create({channel: "AppearancesChannel"}, {
+              connected: () => {console.log("connected AppearancesChannel")},
+              disconnected: () => {console.log("disconnected AppearancesChannel")},
+              received: data => {this.handleAppearances(data)}
+            })
         }})
         }
 
       handleActiveConversation = activeConversation => {
         this.setState({activeConversation: activeConversation})
+      }
+
+      handleAppearances = user => {
+        console.log("APPEARANCE")
+          this.setState(prevState => ({activeUsers: [...prevState.activeUsers, user]}))
+          console.log(this.state.activeUsers)
       }
 
       handleDelete = conversation => {
@@ -112,8 +121,7 @@ class Home extends Component {
       }
 
       render() {
-          const {conversations, activeConversation, error} = this.state
-          console.log("HOME CABLE", this.state)
+          const {conversations, activeConversation, error, activeUsers} = this.state
         return(
             <Fragment>
                 <NavBar 
@@ -121,13 +129,12 @@ class Home extends Component {
                   handleActiveConversation={this.handleActiveConversation}
                   handleDelete={this.handleDelete}
                   onLogout={this.logout}
-                  // cable={cable}
                   history={this.props.history}
                 />
               {error ? this.props.history.push('/login') : null}
                     {activeConversation ?
                     <MessageContainer activeConversation={activeConversation} onAddMessage={this.onAddMessage}  />
-                : <Greeting />}
+                : <Greeting users={activeUsers}/>}
                 
             </Fragment>
         )
