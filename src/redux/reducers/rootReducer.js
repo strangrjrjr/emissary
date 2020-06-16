@@ -32,7 +32,7 @@ export const rootReducer = (state=initialState, action) => {
             state.conversationChannels[conversation.id].unsubscribe()
             const c = {conversation: {id: conversation.id, title: conversation.title, topic: conversation.topic}}
             // FIX THIS
-            this.setState({conversations: state.conversations.filter(function(convo){return convo !== conversation})})
+            state.conversations.filter(function(convo){return convo !== conversation})
             fetch('http://localhost:3000/conversations', {
             method: 'DELETE',
             headers: {
@@ -42,7 +42,6 @@ export const rootReducer = (state=initialState, action) => {
             body: JSON.stringify(c)
             }).then(res => res.json())
             .then(json => console.log(json))
-
             return (Object.assign({}, state, {activeConversation: null}))
         case 'HANDLE_ACTIVE_CONVERSATION':
             return (Object.assign({}, state, {activeConversation: action.payload.conversation}))
