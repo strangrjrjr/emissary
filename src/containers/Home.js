@@ -12,6 +12,7 @@ class Home extends Component {
         super(props)
         this.state = {
             conversations: [],
+            activeUsers: [],
             activeConversation: null,
             error: false
         }
@@ -49,11 +50,22 @@ class Home extends Component {
             })
             } 
             )
+            ac.subscriptions.create({channel: "AppearancesChannel"}, {
+              connected: () => {console.log("connected AppearancesChannel")},
+              disconnected: () => {console.log("disconnected AppearancesChannel")},
+              received: data => {this.handleAppearances(data)}
+            })
         }})
         }
 
       handleActiveConversation = activeConversation => {
         this.setState({activeConversation: activeConversation})
+      }
+
+      handleAppearances = user => {
+        console.log("APPEARANCE")
+          this.setState(prevState => ({activeUsers: [...prevState.activeUsers, user]}))
+          console.log(this.state.activeUsers)
       }
 
       handleDelete = conversation => {
@@ -109,7 +121,7 @@ class Home extends Component {
       }
 
       render() {
-          const {conversations, activeConversation, error} = this.state
+          const {conversations, activeConversation, error, activeUsers} = this.state
         return(
             <Fragment>
                 <NavBar 
@@ -122,7 +134,7 @@ class Home extends Component {
               {error ? this.props.history.push('/login') : null}
                     {activeConversation ?
                     <MessageContainer activeConversation={activeConversation} onAddMessage={this.onAddMessage}  />
-                : <Greeting users={conversations}/>}
+                : <Greeting users={activeUsers}/>}
                 
             </Fragment>
         )
