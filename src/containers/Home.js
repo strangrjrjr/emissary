@@ -13,6 +13,9 @@ class Home extends Component {
         this.state = {
           conversations: [],
           activeConversation: null,
+          // keep track of active users (?)
+          activeUsers: [],
+          // store logged in user for styling differences (?)
           error: false
         }
       }
@@ -38,6 +41,9 @@ class Home extends Component {
               disconnected: () => {console.log("disconnected ConversationsChannel")},
               received: data => {this.handleReceivedConversation(data)}
           })
+          // create subscription for appearances
+          // store in state; pass to greeting component && participants
+
             this.conversationChannels = []
             json.forEach(conversation => {
             this.conversationChannels[`${conversation.id}`] = ac.subscriptions.create({
@@ -50,11 +56,23 @@ class Home extends Component {
             })
             } 
             )
+            ac.subscriptions.create({
+              channel: "AppearancesChannel"},{
+                connected: () => {console.log("connected AppearancesChannel")},
+                disconnected: () => {console.log("disconnected AppearancesChannel")},
+                received: data => {this.handleAppearances(data)}
+              }
+            )
         }})
         }
 
       handleActiveConversation = activeConversation => {
         this.setState({activeConversation: activeConversation})
+      }
+
+      handleAppearances = user => {
+        // need logic for login and logout
+        this.setState(prevState => {[...prevState.activeUsers, user]})
       }
 
       handleDelete = conversation => {

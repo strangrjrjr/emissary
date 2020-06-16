@@ -12,6 +12,8 @@ const ParticipantsContainer = props => {
         })
     }
 
+    // add others from list of active participants
+
     return(
         <div>
             <h4 className="participants_header">Conversation Participants</h4>
