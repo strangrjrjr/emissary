@@ -120,6 +120,7 @@ class Home extends Component {
         this.setState(prevState => ({
             conversations: [...prevState.conversations], conversation
         }))
+        this.forceUpdate()
       }
     
       onAddMessage = (message) => {
