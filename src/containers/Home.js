@@ -77,8 +77,7 @@ class Home extends Component {
 
       handleDelete = conversation => {
           console.log("HANDLEDELETE CALLED")
-            this.setState({activeConversation: null})
-            console.log(this.state)
+          this.setState({activeConversation: null})
           this.conversationChannels[conversation.id].unsubscribe()
           const c = {conversation: {id: conversation.id, title: conversation.title, topic: conversation.topic}}
           this.setState({conversations: this.state.conversations.filter(function(convo){return convo !== conversation})})
@@ -120,8 +119,6 @@ class Home extends Component {
         this.setState(prevState => ({
             conversations: [...prevState.conversations], conversation
         }))
-        
-        this.forceUpdate()
       }
     
       onAddMessage = (message) => {
