@@ -4,15 +4,7 @@ import { Link } from 'react-router-dom'
 import "materialize-css";
 
 class NavBar extends Component {
-
-  constructor(props){
-    super(props)
-    this.state = {
-      conversations: props.conversations,
-      handleActiveConversation: props.handleActiveConversation,
-      handleDelete: props.handleDelete
-    }
-  }
+  
 
   componentDidMount() {
     const M = window.M
@@ -20,18 +12,14 @@ class NavBar extends Component {
     M.Sidenav.init(elems, {edge: 'right'});
   }
 
-  // handleOnChange = conversation => {
-  //   this.setState()
-  // }
-
   render() {
-    // const { conversations, handleActiveConversation, handleDelete } = this.props
+    const { conversations, handleActiveConversation, handleDelete } = this.props
     return (
     <div>
         <nav> 
           <div className="nav-wrapper">
             <Link to="home" data-target="slide-out" className="sidenav-trigger show-on-large">Menu</Link>
-            <Link to="home" onClick={() => this.state.handleActiveConversation(null)} className="brand-logo center">Emissary</Link>
+            <Link to="home" onClick={() => handleClick(null)} className="brand-logo center">Emissary</Link>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
             </ul>
           </div>
@@ -41,7 +29,7 @@ class NavBar extends Component {
         <li onClick={(() => {localStorage.setItem("token", "")})}><Link to="login">Log Out</Link></li>
           <li><Link to="/new">Add Conversation</Link></li>
           <li><div className="divider"></div></li>
-          <ConversationContainer conversations={this.state.conversations} handleClick={this.state.handleActiveConversation} handleDelete={this.state.handleDelete}/>
+          <ConversationContainer conversations={conversations} handleClick={handleActiveConversation} handleDelete={handleDelete}/>
         </ul>
       </div>
     )
