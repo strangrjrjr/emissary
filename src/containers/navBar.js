@@ -5,14 +5,27 @@ import "materialize-css";
 
 class NavBar extends Component {
 
+  constructor(props){
+    super(props)
+    this.state = {
+      conversations: this.props.conversations,
+      handleActiveConversation: this.props.handleActiveConversation,
+      handleDelete: this.props.handleDelete
+    }
+  }
+
   componentDidMount() {
     const M = window.M
     const elems = document.querySelectorAll('.sidenav');
     M.Sidenav.init(elems, {edge: 'right'});
   }
 
+  // handleOnChange = conversation => {
+  //   this.setState()
+  // }
+
   render() {
-    const { conversations, handleActiveConversation, handleDelete } = this.props
+    // const { conversations, handleActiveConversation, handleDelete } = this.props
     return (
     <div>
         <nav> 
@@ -28,7 +41,7 @@ class NavBar extends Component {
         <li onClick={(() => {localStorage.setItem("token", "")})}><Link to="login">Log Out</Link></li>
           <li><Link to="/new">Add Conversation</Link></li>
           <li><div className="divider"></div></li>
-          <ConversationContainer conversations={conversations} handleClick={handleActiveConversation} handleDelete={handleDelete}/>
+          <ConversationContainer conversations={this.state.conversations} handleClick={this.state.handleActiveConversation} handleDelete={this.state.handleDelete}/>
         </ul>
       </div>
     )
