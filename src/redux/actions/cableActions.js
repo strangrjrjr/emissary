@@ -1,23 +1,40 @@
-
+const actioncable = require("actioncable")
 
 export const initCable = () => {
   return (dispatch) => {
-    const cable = ActionCable.createConsumer('ws://localhost:3000/cable')
-    dispatch({ type: 'INIT_CABLE', cable: cable})
+    const cable = actioncable.createConsumer('ws://localhost:3000/cable')
+    dispatch({ type: 'INIT_CABLE', payload: cable})
   }
 }	
 
-export const initConversationsChannel = () => {
-  return (dispatch) => {dispatch({type: 'INIT_CONVERSATION_CHANNEL'})}
+export const initConversationsChannel = (cable) => {
+  // do channel setup here and dispatch as payload to state
+  // how to initialize cable and then call functions on it?
+  cable.subscriptions.create({channel: "ConversationsChannel"}, {
+    connected: () => {console.log("connected ConversationsChannel")},
+    disconnected: () => {console.log("disconnected ConversationsChannel")},
+    // FIX THIS
+    received: data => {handleReceivedConversation(data)}
+})
+  return (dispatch) => {dispatch({type: 'INIT_CONVERSATION_CHANNEL', payload: cable})}
 }
 
-export const initMessagesChannel = () => {
-  return (dispatch) => {dispatch({type: 'INIT_MESSAGE_CHANNEL'})}
+export const initMessagesChannel = (cable, conversation) => {
+  cable.subscriptions.create({
+    channel: "MessagesChannel",
+    id: conversation.id
+},{
+    connected: () => {console.log("connected", conversation.id)},
+    disconnected: () => {console.log("disconnected", conversation.id)},
+    // FIX THIS
+    received: data => {handleReceivedMessage(data)}
+})
+  return (dispatch) => {dispatch({type: 'INIT_MESSAGE_CHANNEL', payload: cable})}
 }
 
-export const handleDelete = (conversation) => {
+export const handleDelete = (cable, conversation) => {
   // PUT FETCH HERE, NOT IN REDUCER
-  state.conversationChannels[conversation.id].unsubscribe()
+  cable.conversationChannels[conversation.id].unsubscribe()
   const c = {conversation: {id: conversation.id, title: conversation.title, topic: conversation.topic}}   
   fetch('http://localhost:3000/conversations', {
             method: 'DELETE',

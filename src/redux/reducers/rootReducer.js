@@ -9,23 +9,12 @@ const initialState = {
 
 export const rootReducer = (state=initialState, action) => {
     switch (action.type) {
+        case 'INIT_CABLE':
+            return (Object.assign({}, state, {cable: action.payload}))
         case 'INIT_CONVERSATION_CHANNEL':
-            return (state.cable.subscriptions.create({channel: "ConversationsChannel"}, {
-                connected: () => {console.log("connected ConversationsChannel")},
-                disconnected: () => {console.log("disconnected ConversationsChannel")},
-                // FIX THIS
-                received: data => {handleReceivedConversation(data)}
-            }))
+            return (Object.assign({}, state, {cable: action.payload}))
         case 'INIT_MESSAGE_CHANNEL':
-            return(state.cable.subscriptions.create({
-                channel: "MessagesChannel",
-                id: action.payload.conversation.id
-            },{
-                connected: () => {console.log("connected", action.payload.conversation.id)},
-                disconnected: () => {console.log("disconnected", action.payload.conversation.id)},
-                // FIX THIS
-                received: data => {handleReceivedMessage(data)}
-            }))
+            return (Object.assign({}, state, {cable: action.payload}))
         case 'HANDLE_DELETE':
             console.log("HANDLEDELETE CALLED")
             const conversation = action.payload.conversation

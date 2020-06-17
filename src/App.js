@@ -9,14 +9,15 @@ import {BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 import './index.css'
 import {connect} from 'react-redux';
-import initCable from './redux/actions/cableActions';
+import {bindActionCreators} from 'redux';
+import * as CableActions from './redux/actions/cableActions';
 
 class App extends Component {
 
   componentDidMount() {
     this.props.initCable()
   }
-  
+
   render() {
   return (
         <Router>
@@ -33,4 +34,14 @@ class App extends Component {
         </Router>
     )};
 }
-export default App;
+const mapStateToProps = state => {
+  return {
+    cable: state.cable
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(CableActions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
