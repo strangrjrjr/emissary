@@ -116,10 +116,11 @@ class Home extends Component {
       }
 
       handleReceivedConversation = conversation => {
-        // console.log(conversation)
+        console.log("HANDLERECEIVEDCONVERSATION CALLED")
         this.setState(prevState => ({
             conversations: [...prevState.conversations], conversation
         }))
+        
         this.forceUpdate()
       }
     
