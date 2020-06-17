@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 const actioncable = require("actioncable")
 
-class newConversationForm extends Component {
+class NewConversationForm extends Component {
     constructor(props){
         super(props)
         this.state = {
@@ -101,4 +101,4 @@ class newConversationForm extends Component {
         )
     }
 }
-export default newConversationForm;
+export default NewConversationForm;
