@@ -4,21 +4,21 @@ import NavBar from './navBar'
 import Greeting from '../components/Greeting'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as CableActions from './redux/actions/cableActions';
+import * as CableActions from '../redux/actions/cableActions';
 
 // const actioncable = require("actioncable")
 
 class Home extends Component {
 
-    constructor(props) {
-        super(props)
-        // this.state = {
-        //     conversations: [],
-        //     activeUsers: [],
-        //     activeConversation: null,
-        //     error: false
-        // }
-      }
+    // constructor(props) {
+    //     super(props)
+    //     // this.state = {
+    //     //     conversations: [],
+    //     //     activeUsers: [],
+    //     //     activeConversation: null,
+    //     //     error: false
+    //     // }
+    //   }
       
     
       componentDidMount = () => {
@@ -131,15 +131,15 @@ class Home extends Component {
             <Fragment>
                 <NavBar 
                   conversations={conversations} 
-                  handleActiveConversation={this.handleActiveConversation}
-                  handleDelete={this.handleDelete}
-                  onLogout={this.logout}
+                  handleActiveConversation={state.handleActiveConversation}
+                  handleDelete={state.handleDelete}
+                  onLogout={state.logout}
                   history={this.props.history}
                 />
               {error ? this.props.history.push('/login') : null}
                     {activeConversation ?
                     <MessageContainer activeConversation={activeConversation} onAddMessage={this.onAddMessage}  />
-                : <Greeting users={activeUsers}/>}
+                : <Greeting />}
                 
             </Fragment>
         )

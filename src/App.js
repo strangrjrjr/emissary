@@ -8,9 +8,18 @@ import newConversationForm from './components/newConversationForm';
 import {BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 import './index.css'
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import rootReducer from './redux/reducers/rootReducer'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as CableActions from './redux/actions/cableActions';
+
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunk)
+  );
 
 class App extends Component {
 
@@ -20,6 +29,7 @@ class App extends Component {
 
   render() {
   return (
+      <Provider store={store}>
         <Router>
           <div>
             <Switch>
@@ -32,6 +42,7 @@ class App extends Component {
             </Switch>
           </div>
         </Router>
+      </Provider>
     )};
 }
 const mapStateToProps = state => {
