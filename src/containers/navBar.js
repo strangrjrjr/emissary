@@ -8,9 +8,9 @@ class NavBar extends Component {
   constructor(props){
     super(props)
     this.state = {
-      conversations: this.props.conversations,
-      handleActiveConversation: this.props.handleActiveConversation,
-      handleDelete: this.props.handleDelete
+      conversations: props.conversations,
+      handleActiveConversation: props.handleActiveConversation,
+      handleDelete: props.handleDelete
     }
   }
 
