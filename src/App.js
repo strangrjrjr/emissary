@@ -8,8 +8,8 @@ import newConversationForm from './components/newConversationForm';
 import {BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 import './index.css'
-import {connect} from 'react-redux';
-import initCable from './redux/actions/cableActions';
+
+
 
 class App extends Component {
 

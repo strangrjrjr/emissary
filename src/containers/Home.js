@@ -3,7 +3,6 @@ import MessageContainer from './messageContainer';
 import NavBar from './navBar'
 import Greeting from '../components/Greeting'
 
-
 const actioncable = require("actioncable")
 
 class Home extends Component {
@@ -135,7 +134,6 @@ class Home extends Component {
                     {activeConversation ?
                     <MessageContainer activeConversation={activeConversation} onAddMessage={this.onAddMessage}  />
                 : <Greeting users={activeUsers}/>}
-                
             </Fragment>
         )
       }

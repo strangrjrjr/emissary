@@ -11,18 +11,6 @@ class NavBar extends Component {
     M.Sidenav.init(elems, {edge: 'right'});
   }
 
-  // handleNewConversation = () => {
-  //     console.log("NAVBAR", this.props.cable)
-  //   const location = {
-  //       pathname: '/new',
-  //       state: {cable: this.props.cable}
-  //   }
-    
-  //   return (
-  //       <li ><Link to={location}>Add Conversation</Link></li>
-  //   )
-  // }
-
   render() {
     const { conversations, handleActiveConversation, handleDelete } = this.props
     
@@ -31,7 +19,7 @@ class NavBar extends Component {
         <nav>
           <div className="nav-wrapper">
             <Link to="home" data-target="slide-out" className="sidenav-trigger show-on-large">Menu</Link>
-            <Link to="home" className="brand-logo center">Emissary</Link>
+            <Link to="home" onClick={() => handleActiveConversation(null)} className="brand-logo center">Emissary</Link>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
             </ul>
           </div>
