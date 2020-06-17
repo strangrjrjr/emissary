@@ -31,7 +31,7 @@ class NavBar extends Component {
         <nav> 
           <div className="nav-wrapper">
             <Link to="home" data-target="slide-out" className="sidenav-trigger show-on-large">Menu</Link>
-            <Link to="home" onClick={() => handleClick(null)} className="brand-logo center">Emissary</Link>
+            <Link to="home" onClick={() => this.state.handleActiveConversation(null)} className="brand-logo center">Emissary</Link>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
             </ul>
           </div>
