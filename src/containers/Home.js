@@ -99,9 +99,7 @@ class Home extends Component {
         const {conversation_id} = message
         console.log("HANDLERECEIVEDMESSAGE CALLED")
         this.setState(prevState => {
-          console.log(prevState.conversations)
           const conversations = [...prevState.conversations]
-
           const convo = conversations.find(convo => convo.id === conversation_id)
             if(!!convo.messages) {
                 if (convo.messages.includes(message)){
@@ -120,7 +118,7 @@ class Home extends Component {
       handleReceivedConversation = conversation => {
         // console.log(conversation)
         this.setState(prevState => ({
-            conversations: [...prevState.conversation], conversation
+            conversations: [...prevState.conversations], conversation
         }))
       }
     
