@@ -70,10 +70,10 @@ class Home extends Component {
         this.setState({activeConversation: activeConversation})
       }
 
-      handleAppearances = user => {
-        // need logic for login and logout
-        this.setState(prevState => {[...prevState.activeUsers, user]})
-      }
+      // handleAppearances = user => {
+      //   // need logic for login and logout
+      //   this.setState(prevState => {[...prevState.activeUsers, user]})
+      // }
 
       handleDelete = conversation => {
           console.log("HANDLEDELETE CALLED")
